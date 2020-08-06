@@ -9,25 +9,29 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final int _newPage = 1;
+  final int _numPages = 3;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
-
   List<Widget> _buildPageIndicator() {
     List<Widget> list = [];
-    for (var i = 0; i < _newPage; i++) {
-      list.add(i ==_currentPage ? _indicator(true) : _indicator(false));
+    for (var i = 0; i < _numPages; i++) {
+      list.add(i == _currentPage ? _indicator(true) : _indicator(false));
     }
 
     return list;
   }
 
-  Widget _indicator(bool isActive){
-    return AnimatedContainer(duration: Duration(milliseconds: 150),
-    margin: EdgeInsets.symmetric(horizontal: 8.0),
-    height: 8.0,
-    width: isActive ? 24.0 : 16.0,);
+  Widget _indicator(bool isActive) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 150),
+      margin: EdgeInsets.symmetric(horizontal: 8.0),
+      height: 8.0,
+      width: isActive ? 24.0 : 16.0,
+      decoration: BoxDecoration(
+          color: isActive ? Colors.white : Color(0xFF85103),
+          borderRadius: BorderRadius.all(Radius.circular(12))),
+    );
   }
 
   @override
@@ -40,12 +44,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              //stops: (0.1, 0.4, 0.7, 0.8),
+              stops: [0.1, 0.4, 0.7, 0.9],
               colors: [
-                Color(0xFF359400),
-                Color(0xFF456308),
-                Color(0xFF583605),
-                Color(0xFF581600)
+                Color(0xFF3594DD),
+                Color(0xFF4563DB),
+                Color(0xFF5036D5),
+                Color(0xFF5B16D0)
               ],
             ),
           ),
@@ -65,7 +69,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
                 Container(
-                  height: 600.0,
+                  height: 500.0,
                   child: PageView(
                     physics: ClampingScrollPhysics(),
                     controller: _pageController,
@@ -87,15 +91,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 width: 300.0,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height: 10.0),
                             Text(
                               "Connect people\naround the world",
-                              style: KHeadingTextStyle,
+                              style: TextStyle(color: Colors.yellow, fontSize: 30),
                             ),
-                            SizedBox(height: 15.0),
+                            SizedBox(height: 10.0),
                             Text(
                               "Lorem ipsom sdfjk, sd asdai as asdasd",
-                              style: KSubTextStyle,
+                              style: TextStyle(color: Colors.grey, fontSize: 16),
                             ),
                           ],
                         ),
@@ -112,15 +116,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 width: 300.0,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height: 20.0),
                             Text(
-                              "Get a new experience of imagination",
-                              style: KHeadingTextStyle,
+                              "We've got \nyour back",
+                              style: TextStyle(color: Colors.yellow, fontSize: 30),
                             ),
-                            SizedBox(height: 15.0),
+                            SizedBox(height: 10.0),
                             Text(
                               "Lorem ipsom sdfjk, sd asdai as asdasd",
-                              style: KSubTextStyle,
+                              style: TextStyle(color: Colors.grey, fontSize: 16),
                             ),
                           ],
                         ),
@@ -137,15 +141,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 width: 300.0,
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height: 20.0),
                             Text(
-                              "Connect people\naround the world",
-                              style: KHeadingTextStyle,
+                              "Get all details\naround the world",
+                              style: TextStyle(color: Colors.yellow, fontSize: 30),
                             ),
-                            SizedBox(height: 15.0),
+                            SizedBox(height: 5.0),
                             Text(
-                              "Lorem ipsom sdfjk, sd asdai as asdasd",
-                              style: KSubTextStyle,
+                              "Lorem ipsom sdfjk, sd asdai as asdasd sdfjk, \nsd asdai as asdasd",
+                              style: TextStyle(color: Colors.grey, fontSize: 16),
                             ),
                           ],
                         ),
@@ -156,12 +160,65 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: _buildPageIndicator(),
-                )
+                ),
+                _currentPage != _numPages - 1
+                    ? Expanded(
+                        child: Align(
+                          alignment: FractionalOffset.bottomRight,
+                          child: FlatButton(
+                            onPressed: () => {
+                              _pageController.nextPage(
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.ease,
+                              )
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  "Next",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22.0,
+                                  ),
+                                ),
+                                SizedBox(width: 10.0),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.white,
+                                  size: 22.0,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    : Text("")
               ],
             ),
           ),
         ),
       ),
+      bottomSheet: _currentPage == _numPages - 1
+          ? Container(
+              height: 100.0,
+              width: double.infinity,
+              color: Colors.white,
+              child: GestureDetector(
+                onTap: () => print("Get started"),
+                child: Center(
+                    child: Padding(
+                  padding: EdgeInsets.only(bottom: 30.0),
+                  child: Text("Get Started",
+                      style: TextStyle(
+                          color: Color(0xFF581608),
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold)),
+                )),
+              ),
+            )
+          : Text(""),
     );
   }
 }
