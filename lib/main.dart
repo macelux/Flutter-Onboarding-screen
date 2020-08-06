@@ -12,9 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData( 
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      // theme: ThemeData( 
+      //   visualDensity: VisualDensity.adaptivePlatformDensity,
+      // ),
       home: OnboardingScreen(),
     );
   }
